@@ -73,7 +73,6 @@ class SyntaxHighlighterWidget(QTextEdit):
 		self.document().setTextWidth(self.viewport().width())  # Forcer la largeur du texte
 		self.document().adjustSize()
 		doc_height = self.document().size().height()  # Hauteur du document
-		print(doc_height)
 		margin = 20  # Marge pour éviter la coupure du texte
 		self.setFixedHeight(int(doc_height) + margin)
 

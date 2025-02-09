@@ -52,9 +52,8 @@ class FullscreenSvgApp(QWidget):
 
 		# Layout principal (HORIZONTAL)
 		self.layout = QHBoxLayout()
-		helpZone = HelpWidget()
-#		self.layout.addStretch(1)  # Espace vide à gauche
-		self.leftPanel=self.layout.addWidget(helpZone, 1)  # Espace vide à gauche
+		self.helpZone = HelpWidget()
+		self.leftPanel=self.layout.addWidget(self.helpZone, 1)  # Espace vide à gauche
 		self.centralPanel=self.layout.addWidget(self.svg_widget, 3)  # SVG au centre (largeur flexible)
 		self.rightPanel=self.layout.addLayout(self.text_layout, 1)  # Texte + Titre à droite
 		self.layout.setAlignment(self.text_layout, Qt.AlignmentFlag.AlignVCenter)  # Centre verticalement l'ensemble
@@ -69,6 +68,9 @@ class FullscreenSvgApp(QWidget):
 
 		# Ajuster la taille de l'image
 		self.resizeEvent(None)
+
+	def showHelp(self):
+		self.helpZone.show()
 
 	def textWidget(self):
 		font = QFont("Anonymous Pro, FiraCode, DejaVu Sans Mono, Monospace")
@@ -113,6 +115,9 @@ class FullscreenSvgApp(QWidget):
 		stPastFromClipboardEmacs.activated.connect(self.pasteFromClipboard)
 		stPastFromClipboardVim = QShortcut(QKeySequence("Ctrl+v"), self)
 		stPastFromClipboardVim.activated.connect(self.pasteFromClipboard)
+
+		stShowHelp = QShortcut(QKeySequence("h"), self)
+		stShowHelp.activated.connect(self.showHelp)
 
 	def blink_label(self):
 		""" Fait clignoter le QLabel en bleu pendant 2 secondes """
