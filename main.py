@@ -17,6 +17,7 @@ from dedale.globals import *
 from dedale.generation import declareSymbologies
 from dedale.titlezone import prepareTitle
 from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation
+from dedale.helpzone import HelpWidget
 
 declareSymbologies()
 
@@ -51,7 +52,9 @@ class FullscreenSvgApp(QWidget):
 
 		# Layout principal (HORIZONTAL)
 		self.layout = QHBoxLayout()
-		self.layout.addStretch(1)  # Espace vide à gauche
+		helpZone = HelpWidget()
+#		self.layout.addStretch(1)  # Espace vide à gauche
+		self.layout.addWidget(helpZone, 1)  # Espace vide à gauche
 		self.layout.addWidget(self.svg_widget, 3)  # SVG au centre (largeur flexible)
 		self.layout.addLayout(self.text_layout, 1)  # Texte + Titre à droite
 		self.layout.setAlignment(self.text_layout, Qt.AlignmentFlag.AlignVCenter)  # Centre verticalement l'ensemble

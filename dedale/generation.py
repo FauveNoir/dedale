@@ -16,39 +16,6 @@ def getTempFile():
 		print(f"Fichier temporaire créé : {temp_file.name}")
 	return temp_file
 
-def printHelp():
-	helpText="""
-<h1>Aide</h2>
-
-<dl>
-	<dt><kbd>a</kbd></dt>
-	<dd>Symboliser en QRcode</dd>
-
-	<dt><kbd>u</kbd></dt>
-	<dd>Symboliser en Datamatrix</dd>
-
-	<dt><kbd>c</kbd></dt>
-	<dd>Ouvrir le texte dans un éditeur</dd>
-
-	<dt><kbd>y</kbd>, <kbd>Ctrl</kbd>+<kbd>c</kbd></dt>
-	<dd>Copier le texte dans le presse-papier</dd>
-
-	<dt><kbd>Y</kbd>, <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>c</kbd></dt>
-	<dd>Copier la symbologie dans le presse-papier</dd>
-
-	<dt><kbd>p</kbd>, <kbd>ctrl</kbd>+<kbd>v</kbd></dt>
-	<dd>Symboliser le contenu du presse-papier</dd>
-
-	<dt><kbd>o</kbd></dt>
-	<dd>Ouvrir l’identifiant ou la ressource symbolisée dans un client idoine</dd>
-
-	<dt><kbd>h</kbd></dt>
-	<dd>Montrer l’aide</dd>
-
-	<dt><kbd>d</kbd></dt>
-	<dd>Faire un don</dd>
-</dl>
-"""
 
 ########################################################################
 # Classe

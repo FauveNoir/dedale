@@ -65,11 +65,15 @@ class SyntaxHighlighterWidget(QTextEdit):
 		self.setHtml(highlighted_code)  # Affichage du HTML formaté
 
 		#self.sizeHint()
+		self.document().setTextWidth(self.viewport().width())  # Forcer la largeur du texte
 		self.textChanged.connect(self.adjust_height)
 
 	def adjust_height(self):
 		"""Ajuste la hauteur du widget en fonction du contenu"""
+		self.document().setTextWidth(self.viewport().width())  # Forcer la largeur du texte
+		self.document().adjustSize()
 		doc_height = self.document().size().height()  # Hauteur du document
+		print(doc_height)
 		margin = 20  # Marge pour éviter la coupure du texte
 		self.setFixedHeight(int(doc_height) + margin)
 
