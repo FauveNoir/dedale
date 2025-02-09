@@ -54,9 +54,9 @@ class FullscreenSvgApp(QWidget):
 		self.layout = QHBoxLayout()
 		helpZone = HelpWidget()
 #		self.layout.addStretch(1)  # Espace vide à gauche
-		self.layout.addWidget(helpZone, 1)  # Espace vide à gauche
-		self.layout.addWidget(self.svg_widget, 3)  # SVG au centre (largeur flexible)
-		self.layout.addLayout(self.text_layout, 1)  # Texte + Titre à droite
+		self.leftPanel=self.layout.addWidget(helpZone, 1)  # Espace vide à gauche
+		self.centralPanel=self.layout.addWidget(self.svg_widget, 3)  # SVG au centre (largeur flexible)
+		self.rightPanel=self.layout.addLayout(self.text_layout, 1)  # Texte + Titre à droite
 		self.layout.setAlignment(self.text_layout, Qt.AlignmentFlag.AlignVCenter)  # Centre verticalement l'ensemble
 
 
