@@ -18,10 +18,11 @@ import webbrowser
 
 from PyQt6.QtGui import QColor
 # Dédale
+from dedale.__init__ import *
 from dedale.globals import *
 from dedale.generation import declareSymbologies
 from dedale.titlezone import prepareTitle
-from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation
+from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation, editText
 from dedale.helpzone import HelpWidget
 from dedale.keybindings import setBindings, Binding
 
@@ -100,7 +101,9 @@ class FullscreenSvgApp(QWidget):
 #		sys.exit()
 
 	def openEditor(self):
-		pass
+		new_text=editText(self, self.text)
+		print(new_text)
+		self.setNewText(new_text)
 
 	def openClient(self):
 		pass

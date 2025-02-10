@@ -9,6 +9,13 @@ from PyQt6.QtCore import Qt,  QSize
 from PyQt6.QtCore import QVariantAnimation
 import functools
 
+import tempfile
+import subprocess
+import sys
+
+from dedale.__init__ import *
+from dedale.globals import *
+
 class SyntaxHighlighterWidget(QTextEdit):
 	def __init__(self, text=None, parent=None):
 			super().__init__(parent)
@@ -89,3 +96,33 @@ def apply_color_animation(widget, start_color, end_color, duration=1000):
 	)
 	anim.valueChanged.connect(functools.partial(helper_function, widget))
 	anim.start()
+
+def editText(qtWindow, old_text):
+	# Créer un fichier temporaire
+	with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".txt") as tmpfile:
+		tmpfile.write(old_text)  # Écrire le texte initial
+		tmpfile_path = tmpfile.name
+
+	qtWindow.hide()
+	# Ouvrir le fichier avec l'éditeur par défaut
+	if editorCommand not in ["", None]:
+		if sys.platform == "win32":
+			# Ouvrir avec Notepad et le mettre en avant-plan (Windows)
+			process = subprocess.Popen(["notepad", tmpfile_path], shell=True)
+		elif sys.platform == "darwin":
+			# Ouvrir avec TextEdit et le forcer en avant-plan (Mac)
+			process = subprocess.Popen(["open", "-a", "TextEdit", tmpfile_path])
+		elif sys.platform == "linux":
+			# Ouvrir avec l'éditeur par défaut en avant-plan (Linux)
+			process = subprocess.Popen(["xdg-open", tmpfile_path])
+	else:
+		process = subprocess.Popen([editorCommand, tmpfile_path])
+
+	process.wait()
+
+	qtWindow.showFullScreen()
+	# Lire le contenu modifié
+	with open(tmpfile_path, "r") as f:
+		new_text = f.read()
+
+	return new_text
