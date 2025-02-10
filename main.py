@@ -18,6 +18,7 @@ from dedale.generation import declareSymbologies
 from dedale.titlezone import prepareTitle
 from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation
 from dedale.helpzone import HelpWidget
+from dedale.keybindings import setBindings, Binding
 
 declareSymbologies()
 
@@ -61,13 +62,27 @@ class FullscreenSvgApp(QWidget):
 
 		self.setLayout(self.layout)
 
+
 		# Configurer la fenêtre
 		self.setWindowTitle("Dédale — affichage dynamique de symbologies")
 		self.showFullScreen()
 		self.setStyleSheet("background-color: white;")
 
+		self.chargeKeybindings()
+
 		# Ajuster la taille de l'image
 		self.resizeEvent(None)
+
+	def chargeKeybindings(self):
+		setBindings(self)
+		definedKeybindings=[]
+		for aBinding in listOfKeybindings.values():
+			print(aBinding.code)
+			for aKey in aBinding.keys:
+				print(aKey)
+				qShortcut=QShortcut(QKeySequence(aKey), self)
+				definedKeybindings.append(qShortcut)
+				definedKeybindings[-1].activated.connect(aBinding.instructions)
 
 	def showHelp(self):
 		self.helpZone.show()
@@ -93,31 +108,6 @@ class FullscreenSvgApp(QWidget):
 		self.text_layout.addStretch()  # Permet un centrage vertical de l'ensemble
 		self.text_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
 
-		stClose = QShortcut(QKeySequence("q"), self)
-		stClose.activated.connect(self.close)
-
-		stCopyTextToClipboardEmacs = QShortcut(QKeySequence("Ctrl+C"), self)
-		stCopyTextToClipboardEmacs.activated.connect(self.copyTextToClipboard)
-		stCopyTextToClipboardVim = QShortcut(QKeySequence("y"), self)
-		stCopyTextToClipboardVim.activated.connect(self.copyTextToClipboard)
-
-		stCopySymbologyToClipboardEmacs = QShortcut(QKeySequence("Ctrl+Shift+C"), self)
-		stCopySymbologyToClipboardEmacs.activated.connect(self.copySymbologyToClipboard)
-		stCopySymbologyToClipboardVim = QShortcut(QKeySequence("Shift+y"), self)
-		stCopySymbologyToClipboardVim.activated.connect(self.copySymbologyToClipboard)
-#
-		stToQrcode = QShortcut(QKeySequence("a"), self)
-		stToQrcode.activated.connect(lambda: self.setSymbology(listOfSybologies["qrcode"]))
-		stToDatamatrix = QShortcut(QKeySequence("u"), self)
-		stToDatamatrix.activated.connect(lambda: self.setSymbology(listOfSybologies["datamatrix"]))
-
-		stPastFromClipboardEmacs = QShortcut(QKeySequence("p"), self)
-		stPastFromClipboardEmacs.activated.connect(self.pasteFromClipboard)
-		stPastFromClipboardVim = QShortcut(QKeySequence("Ctrl+v"), self)
-		stPastFromClipboardVim.activated.connect(self.pasteFromClipboard)
-
-		stShowHelp = QShortcut(QKeySequence("h"), self)
-		stShowHelp.activated.connect(self.showHelp)
 
 	def blink_label(self):
 		""" Fait clignoter le QLabel en bleu pendant 2 secondes """
@@ -138,7 +128,7 @@ class FullscreenSvgApp(QWidget):
 		)
 
 	def error_no_text_content(self):
-		errorImageFile="/home/fauve/dev/showqr/dedale/error-message.svg"
+		errorImageFile="/home/fauve/dev/dedale/dedale/error-message.svg"
 		self.svg_widget.load(errorImageFile)
 		self.svg_widget.repaint()
 
@@ -186,8 +176,11 @@ class FullscreenSvgApp(QWidget):
 
 	def copySymbologyToClipboard(self):
 		# Lire le fichier binaire
-		subprocess.run(["xclip", "-selection", "clipboard", "-t", "image/png", "-i", self.temp_file.name])
-		self.blink_qrcode()
+		try:
+			subprocess.run(["xclip", "-selection", "clipboard", "-t", "image/png", "-i", self.temp_file.name])
+			self.blink_qrcode()
+		except:
+			pass
 
 	def pasteFromClipboard(self):
 		clipboard=QApplication.clipboard()

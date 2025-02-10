@@ -1,2 +1,3 @@
 listOfSybologies={}
+listOfKeybindings={}
 
