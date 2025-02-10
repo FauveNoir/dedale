@@ -2,14 +2,18 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QSpacerItem, QSizePolicy
 from PyQt6.QtSvgWidgets import QSvgWidget
 from PyQt6.QtGui import QKeyEvent, QClipboard, QFont, QKeySequence, QShortcut
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtCore import QUrl
 from PyQt6.QtCore import Qt,  QMimeData
 from PyQt6.QtCore import QTimer
+from PyQt5.QtCore import QUrl, QCoreApplication
 # Autre
 import argparse
 import sys
 import subprocess
 import html
 import pyperclip as pc
+import webbrowser
 
 from PyQt6.QtGui import QColor
 # Dédale
@@ -83,6 +87,22 @@ class FullscreenSvgApp(QWidget):
 				qShortcut=QShortcut(QKeySequence(aKey), self)
 				definedKeybindings.append(qShortcut)
 				definedKeybindings[-1].activated.connect(aBinding.instructions)
+
+	def donate(self):
+#		print(f"Pour soutenir {APP_FANCY_NAME} et faire en sorte qu’il continue et s’améliore, merci de faire un don à <{APP_AUTHOR_DONATION_LINK}>. (^.^)")
+		url = "https://www.example.com"
+		subprocess.Popen(["python3", "-c", f"import webbrowser; webbrowser.open('{url}')"])
+		# Ouvrir un lien dans le navigateur
+#		QDesktopServices.openUrl(QUrl("https://www.example.com"))
+		QApplication.quit()
+		# Fermer l'application
+#		sys.exit()
+
+	def openEditor(self):
+		pass
+
+	def openClient(self):
+		pass
 
 	def showHelp(self):
 		self.helpZone.show()
@@ -208,7 +228,15 @@ def parseArgs():
 	# Argument positionnel pour une chaîne sans option
 	parser.add_argument("text", nargs="?", type=str, help="Texte fourni sans option")
 
-	return parser.parse_args()
+	args =parser.parse_args()
+
+	pipeData=sys.stdin
+
+	if args.text == None:
+		if pipeData != None:
+			args.text = pipeData
+
+	return args
 
 def get_selected_text():
 	try:
