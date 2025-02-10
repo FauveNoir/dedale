@@ -1,12 +1,8 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QSpacerItem, QSizePolicy
 from PyQt6.QtSvgWidgets import QSvgWidget
-from PyQt6.QtGui import QKeyEvent, QClipboard, QFont, QKeySequence, QShortcut
-from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtCore import QUrl
-from PyQt6.QtCore import Qt,  QMimeData
-from PyQt6.QtCore import QTimer
-from PyQt5.QtCore import QUrl, QCoreApplication
+from PyQt6.QtGui import QKeyEvent, QClipboard, QFont, QKeySequence, QShortcut, QDesktopServices, QColor
+from PyQt6.QtCore import Qt,  QMimeData, QTimer, QCoreApplication
 # Autre
 import argparse
 import sys
@@ -16,7 +12,6 @@ import html
 import pyperclip as pc
 import webbrowser
 
-from PyQt6.QtGui import QColor
 # Dédale
 from dedale.__init__ import *
 from dedale.globals import *
@@ -25,6 +20,9 @@ from dedale.titlezone import prepareTitle
 from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation, editText
 from dedale.helpzone import HelpWidget
 from dedale.keybindings import setBindings, Binding
+#from dedale.configfile import 
+import dedale.configfile
+from dedale.configfile import testIfConfigFileExistAndCreateItIfNone
 
 declareSymbologies()
 
@@ -42,6 +40,9 @@ def screenSize(app):
 class FullscreenSvgApp(QWidget):
 	def __init__(self, text=None, symbology=listOfSybologies["qrcode"]):
 		super().__init__()
+
+		self.chargeKeybindings()
+		testIfConfigFileExistAndCreateItIfNone()
 		# Variables primitives
 		self.currentSymbology=symbology
 		self.text=text
@@ -74,7 +75,6 @@ class FullscreenSvgApp(QWidget):
 		self.showFullScreen()
 		self.setStyleSheet("background-color: white;")
 
-		self.chargeKeybindings()
 
 		# Ajuster la taille de l'image
 		self.resizeEvent(None)
@@ -83,9 +83,7 @@ class FullscreenSvgApp(QWidget):
 		setBindings(self)
 		definedKeybindings=[]
 		for aBinding in listOfKeybindings.values():
-			print(aBinding.code)
 			for aKey in aBinding.keys:
-				print(aKey)
 				qShortcut=QShortcut(QKeySequence(aKey), self)
 				definedKeybindings.append(qShortcut)
 				definedKeybindings[-1].activated.connect(aBinding.instructions)
@@ -93,12 +91,8 @@ class FullscreenSvgApp(QWidget):
 	def donate(self):
 #		print(f"Pour soutenir {APP_FANCY_NAME} et faire en sorte qu’il continue et s’améliore, merci de faire un don à <{APP_AUTHOR_DONATION_LINK}>. (^.^)")
 		url = "https://www.example.com"
-		subprocess.Popen(["python3", "-c", f"import webbrowser; webbrowser.open('{url}')"])
-		# Ouvrir un lien dans le navigateur
-#		QDesktopServices.openUrl(QUrl("https://www.example.com"))
+		subprocess.Popen(["python3", "-c", f"import webbrowser; webbrowser.open('{APP_AUTHOR_DONATION_LINK}')"])
 		QApplication.quit()
-		# Fermer l'application
-#		sys.exit()
 
 	def openEditor(self):
 		new_text=editText(self, self.text)
