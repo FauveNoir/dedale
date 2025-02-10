@@ -10,6 +10,7 @@ from PyQt5.QtCore import QUrl, QCoreApplication
 # Autre
 import argparse
 import sys
+import select
 import subprocess
 import html
 import pyperclip as pc
@@ -135,7 +136,7 @@ class FullscreenSvgApp(QWidget):
 			self.text_label,
 			QColor("#2e9aff"),
 			QColor("white"),
-			duration=2500,
+			duration=1000,
 		)
 
 	def blink_qrcode(self):
@@ -230,13 +231,20 @@ def parseArgs():
 
 	args =parser.parse_args()
 
-	pipeData=sys.stdin
+	pipeData=stdinInput()
 
 	if args.text == None:
 		if pipeData != None:
 			args.text = pipeData
 
 	return args
+
+def stdinInput():
+	if select.select([sys.stdin], [], [], 0.1)[0]:  # Timeout de 0.1s pour éviter le blocage
+		return sys.stdin.read()
+	return None
+
+
 
 def get_selected_text():
 	try:
