@@ -8,10 +8,10 @@ APP_SHORT_DESCRIPTION="Utilitaire de présentation dynamique de symbologies (QRc
 APP_LONG_DESCRIPTION=f"{APP_SHORT_DESCRIPTION} pour stations de travail en vue d’échange rapide d’information."
 APP_VERSION="0.1.0"
 APP_AUTHOR="Fauve"
-APP_LICENCE="agplv3"
+APP_LICENCE="AGPLv3"
 APP_AUTHOR_MAIL="fauve.ordinator@taniere.info"
 APP_AUTHOR_DONATION_LINK="https://paypal.me/ihidev"
-APP_URL=""
+APP_URL="http://taniere.info"
 APP_LOGO_SVG_SQUARE="""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    width="224.06902mm"

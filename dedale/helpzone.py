@@ -126,7 +126,7 @@ class HelpWidget(QWidget):
 
 		# Description
 		font = QFont("Anonymous Pro, FiraCode, DejaVu Sans Mono, Monospace")
-		bottomLabel = QLabel("Dédale est un utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix) pour stations de travail en vue d’échange rapide d’information.")
+		bottomLabel = QLabel(APP_LONG_DESCRIPTION)
 		bottomLabel.setFont(font)
 		bottomLabel.setStyleSheet("font-size: 12px; font-weight: bold;")  # Style optionnel
 		bottomLabel.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
@@ -134,14 +134,14 @@ class HelpWidget(QWidget):
 		layout.addWidget(bottomLabel)
 
 		# URL
-		urlLabel = QLabel("http://taniere.info")
+		urlLabel = QLabel(APP_URL)
 		urlLabel.setStyleSheet("font-size: 12px; font-weight: bold;")  # Style optionnel
 		urlLabel.setFont(font)
 		urlLabel.setWordWrap(True)
 		layout.addWidget(urlLabel)
 
 		# Licence
-		licence = QLabel("GPL v3")
+		licence = QLabel(APP_LICENCE)
 		licence.setStyleSheet("font-size: 12px; font-weight: bold;")  # Style optionnel
 		licence.setFont(font)
 		licence.setWordWrap(True)
@@ -156,12 +156,3 @@ class HelpWidget(QWidget):
 
 	def show(self):
 		self.setVisible(True)
-
-presentation="""
-Dédale est un utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix) pour stations de travail en vue d’échange rapide d’information.
-
-http://taniere.info
-
-GPLv3
-
-"""
