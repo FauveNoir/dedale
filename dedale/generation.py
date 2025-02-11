@@ -1,5 +1,4 @@
 # Selection de fichiers non occupés
-import tempfile
 # Génération de qrcode
 import qrcode
 import qrcode.image.svg
@@ -10,11 +9,6 @@ from PIL import Image
 
 from dedale.global_vars import *
 
-def getTempFile():
-	# Créer un fichier temporaire unique et sécurisé
-	with tempfile.NamedTemporaryFile(prefix="dedale-", suffix=".svg", delete=False) as temp_file:
-		print(f"Fichier temporaire créé : {temp_file.name}")
-	return temp_file
 
 
 ########################################################################
@@ -40,7 +34,6 @@ class Symbology:
 ########################################################################
 
 def generateQRcode(text):
-	temp_file=getTempFile()
 
 	qr = qrcode.QRCode(version = 1,
 					   box_size = 10,
@@ -54,20 +47,18 @@ def generateQRcode(text):
 	img = qr.make_image(fill_color = 'red',
 						back_color = 'white')
 
-	img.save(temp_file.name)
-	print(f"Le fichier temporaire est disponible sur {temp_file.name}")
-	return temp_file
+	svg_text = img.to_string().decode("utf-8") 
+	return svg_text
 
 
 def generateDataMatrix(text):
-	temp_file=getTempFile()
 
 	# Générer le DataMatrix
 	encoded = encode(text.encode('utf8'))
 	img = Image.frombytes('RGB', (encoded.width, encoded.height), encoded.pixels)
 
 	# Création du document SVG
-	dwg = svgwrite.Drawing(temp_file.name, profile="tiny", size=(int(encoded.width/5), int(encoded.height/5)))
+	dwg = svgwrite.Drawing("/tmp/test.txt", profile="tiny", size=(int(encoded.width/5), int(encoded.height/5)))
 
 	# Ajouter chaque pixel du DataMatrix au SVG
 	i=0
@@ -78,9 +69,9 @@ def generateDataMatrix(text):
 			if encoded.pixels[pixel_index] == 0:  # 0 = pixel noir (DataMatrix est en niveaux de gris)
 				dwg.add(dwg.rect(insert=(x, y), size=(1, 1), fill="black"))
 
-	# Sauvegarde du SVG
-	dwg.save()
-	return temp_file
+	svg_text = dwg.tostring()
+
+	return svg_text
 
 ########################################################################
 # Déclaration des symbiologies

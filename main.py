@@ -2,8 +2,8 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QSpacerItem, QSizePolicy
 from PyQt6.QtSvgWidgets import QSvgWidget
 from PyQt6.QtGui import QKeyEvent, QClipboard, QFont, QKeySequence, QShortcut, QDesktopServices, QColor
-from PyQt6.QtCore import Qt,  QMimeData, QTimer, QCoreApplication
-from PyQt5.QtCore import QByteArray
+from PyQt6.QtCore import Qt,  QMimeData, QTimer, QCoreApplication, QByteArray
+
 # Autre
 import argparse
 import sys
@@ -13,6 +13,8 @@ import html
 import pyperclip as pc
 import webbrowser
 import appdirs
+import cairosvg
+
 
 # Dédale
 from dedale.__init__ import *
@@ -53,7 +55,7 @@ class FullscreenSvgApp(QWidget):
 		self.text=text
 
 		# Fichier contenant la symbologie
-		self.temp_file=None
+		self.svg_text=None
 
 		# Création des widgets
 		self.svg_widget = QSvgWidget()  # Remplace par ton fichier SVG
@@ -95,7 +97,7 @@ class FullscreenSvgApp(QWidget):
 				definedKeybindings[-1].activated.connect(aBinding.instructions)
 
 	def donate(self):
-#		print(f"Pour soutenir {APP_FANCY_NAME} et faire en sorte qu’il continue et s’améliore, merci de faire un don à <{APP_AUTHOR_DONATION_LINK}>. (^.^)")
+		print(f"Pour soutenir {APP_FANCY_NAME} et faire en sorte qu’il continue et s’améliore, merci de faire un don à <{APP_AUTHOR_DONATION_LINK}>. (^.^)")
 		url = "https://www.example.com"
 		subprocess.Popen(["python3", "-c", f"import webbrowser; webbrowser.open('{APP_AUTHOR_DONATION_LINK}')"])
 		QApplication.quit()
@@ -155,8 +157,8 @@ class FullscreenSvgApp(QWidget):
 		self.svg_widget.repaint()
 
 	def generateImage(self):
-		self.temp_file=self.currentSymbology.generate(self.text)
-		return self.temp_file
+		self.svg_text=self.currentSymbology.generate(self.text)
+		return self.svg_text
 
 	def setImage(self):
 		if self.text == None:
@@ -164,7 +166,8 @@ class FullscreenSvgApp(QWidget):
 			self.error_no_text_content()
 		else:
 			self.generateImage()
-			self.svg_widget.load(self.temp_file.name)
+			svg_bytes = QByteArray(self.svg_text.encode("utf-8")) 
+			self.svg_widget.renderer().load(svg_bytes)
 			self.svg_widget.repaint()
 
 	def setSymbology(self, newSymbology):
@@ -198,7 +201,7 @@ class FullscreenSvgApp(QWidget):
 	def copySymbologyToClipboard(self):
 		# Lire le fichier binaire
 		try:
-			subprocess.run(["xclip", "-selection", "clipboard", "-t", "image/png", "-i", self.temp_file.name])
+			putSvgInClipboardAsPng(self.svg_text)
 			self.blink_qrcode()
 		except:
 			pass
@@ -206,6 +209,15 @@ class FullscreenSvgApp(QWidget):
 	def pasteFromClipboard(self):
 		clipboard=QApplication.clipboard()
 		self.setNewText(clipboard.text())
+
+def putSvgInClipboardAsPng(svg_text):
+	png_bytes = cairosvg.svg2png(bytestring=svg_text.encode("utf-8"))
+
+	# Utiliser xclip pour copier dans le presse-papier
+	process = subprocess.Popen(["xclip", "-selection", "clipboard", "-t", "image/png"], stdin=subprocess.PIPE)
+	process.communicate(input=png_bytes)
+
+	print("L’image PNG a été copiée dans le presse-papier.")
 
 
 
