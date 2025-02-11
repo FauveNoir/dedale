@@ -11,13 +11,12 @@ import html
 import pyperclip as pc
 import webbrowser
 import appdirs
-import cairosvg
 
 
 # Dédale
 from dedale.__init__ import *
 from dedale.global_vars import *
-from dedale.generation import declareSymbologies
+from dedale.generation import declareSymbologies, putSvgInClipboardAsPng
 from dedale.titlezone import prepareTitle
 from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation, editText
 from dedale.helpzone import HelpWidget
@@ -208,17 +207,6 @@ class FullscreenSvgApp(QWidget):
 	def pasteFromClipboard(self):
 		clipboard=QApplication.clipboard()
 		self.setNewText(clipboard.text())
-
-def putSvgInClipboardAsPng(svg_text):
-	png_bytes = cairosvg.svg2png(bytestring=svg_text.encode("utf-8"))
-
-	# Utiliser xclip pour copier dans le presse-papier
-	process = subprocess.Popen(["xclip", "-selection", "clipboard", "-t", "image/png"], stdin=subprocess.PIPE)
-	process.communicate(input=png_bytes)
-
-	print("L’image PNG a été copiée dans le presse-papier.")
-
-
 
 
 

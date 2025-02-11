@@ -6,6 +6,8 @@ import qrcode.image.svg
 from pylibdmtx.pylibdmtx import encode
 import svgwrite
 from PIL import Image
+import cairosvg
+import subprocess
 
 from dedale.global_vars import *
 
@@ -81,3 +83,15 @@ def declareSymbologies():
 	Symbology(name="QRcode", code="qrcode", generationFunction=generateQRcode)
 	Symbology(name="Datamatrix", code="datamatrix", generationFunction=generateDataMatrix)
 
+########################################################################
+# Copie de la symbologie en cours
+########################################################################
+
+def putSvgInClipboardAsPng(svg_text):
+	png_bytes = cairosvg.svg2png(bytestring=svg_text.encode("utf-8"))
+
+	# Utiliser xclip pour copier dans le presse-papier
+	process = subprocess.Popen(["xclip", "-selection", "clipboard", "-t", "image/png"], stdin=subprocess.PIPE)
+	process.communicate(input=png_bytes)
+
+	print("L’image PNG a été copiée dans le presse-papier.")
