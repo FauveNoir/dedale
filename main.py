@@ -23,6 +23,7 @@ from dedale.helpzone import HelpWidget
 from dedale.keybindings import setBindings, Binding
 from dedale.configfile import testIfConfigFileExistAndCreateItIfNone,applyRelevantConfiguration
 from dedale.args import parseArgs, stringToConvert
+from dedale.error_message import mazeShape
 import dedale.configfile as configfile
 
 declareSymbologies()
@@ -150,8 +151,8 @@ class FullscreenSvgApp(QWidget):
 		)
 
 	def error_no_text_content(self):
-		errorImageFile="/home/fauve/dev/dedale/dedale/error-message.svg"
-		self.svg_widget.load(errorImageFile)
+		svg_bytes = QByteArray(mazeShape.encode("utf-8")) 
+		self.svg_widget.renderer().load(svg_bytes)
 		self.svg_widget.repaint()
 
 	def generateImage(self):
@@ -192,9 +193,10 @@ class FullscreenSvgApp(QWidget):
 		self.layout.setContentsMargins(40, 40, 40, 40)  # Marges autour
 
 	def copyTextToClipboard(self):
-		clipboard=QApplication.clipboard()
-		clipboard.setText(self.text)  # Texte à copier avec 'Y'
-		self.blink_label()
+		if self.text != None:
+			clipboard=QApplication.clipboard()
+			clipboard.setText(self.text)  # Texte à copier avec 'Y'
+			self.blink_label()
 
 	def copySymbologyToClipboard(self):
 		# Lire le fichier binaire
