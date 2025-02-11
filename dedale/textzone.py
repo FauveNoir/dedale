@@ -14,7 +14,7 @@ import subprocess
 import sys
 
 from dedale.__init__ import *
-from dedale.globals import *
+from dedale.global_vars import *
 
 class SyntaxHighlighterWidget(QTextEdit):
 	def __init__(self, text=None, parent=None):

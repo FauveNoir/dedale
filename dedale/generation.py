@@ -8,7 +8,7 @@ from pylibdmtx.pylibdmtx import encode
 import svgwrite
 from PIL import Image
 
-from dedale.globals import *
+from dedale.global_vars import *
 
 def getTempFile():
 	# Créer un fichier temporaire unique et sécurisé
@@ -89,3 +89,4 @@ def generateDataMatrix(text):
 def declareSymbologies():
 	Symbology(name="QRcode", code="qrcode", generationFunction=generateQRcode)
 	Symbology(name="Datamatrix", code="datamatrix", generationFunction=generateDataMatrix)
+

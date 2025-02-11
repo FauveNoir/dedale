@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout,
 from PyQt6.QtSvgWidgets import QSvgWidget
 from PyQt6.QtGui import QKeyEvent, QClipboard, QFont, QKeySequence, QShortcut, QDesktopServices, QColor
 from PyQt6.QtCore import Qt,  QMimeData, QTimer, QCoreApplication
+from PyQt5.QtCore import QByteArray
 # Autre
 import argparse
 import sys
@@ -11,40 +12,44 @@ import subprocess
 import html
 import pyperclip as pc
 import webbrowser
+import appdirs
 
 # Dédale
 from dedale.__init__ import *
-from dedale.globals import *
+from dedale.global_vars import *
 from dedale.generation import declareSymbologies
 from dedale.titlezone import prepareTitle
 from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation, editText
 from dedale.helpzone import HelpWidget
 from dedale.keybindings import setBindings, Binding
-#from dedale.configfile import 
-import dedale.configfile
-from dedale.configfile import testIfConfigFileExistAndCreateItIfNone
+import dedale.configfile as configfile
+from dedale.configfile import testIfConfigFileExistAndCreateItIfNone,applyRelevantConfiguration
 
 declareSymbologies()
 
 def screenSize(app):
 	screen = app.primaryScreen()
-	print('Screen: %s' % screen.name())
+#	print('Screen: %s' % screen.name())
 	size = screen.size()
-	print('Size: %d x %d' % (size.width(), size.height()))
+#	print('Size: %d x %d' % (size.width(), size.height()))
 	rect = screen.availableGeometry()
-	print('Available: %d x %d' % (rect.width(), rect.height()))
+#	print('Available: %d x %d' % (rect.width(), rect.height()))
 	# Calculer la largeur des éléments
 	return size.width(), size.height()
 
 
 class FullscreenSvgApp(QWidget):
-	def __init__(self, text=None, symbology=listOfSybologies["qrcode"]):
+	def __init__(self, text=None, configFile=None, symbology="qrcode"):
 		super().__init__()
 
-		self.chargeKeybindings()
-		testIfConfigFileExistAndCreateItIfNone()
+		if symbology == None:
+			self.symbology="qrcode"
+		else:
+			self.symbology=symbology
+		self.chargeKeybindings(configFile)
+#		#testIfConfigFileExistAndCreateItIfNone()
 		# Variables primitives
-		self.currentSymbology=symbology
+		self.currentSymbology=listOfSybologies[self.symbology]
 		self.text=text
 
 		# Fichier contenant la symbologie
@@ -52,7 +57,7 @@ class FullscreenSvgApp(QWidget):
 
 		# Création des widgets
 		self.svg_widget = QSvgWidget()  # Remplace par ton fichier SVG
-		self.setSymbology(listOfSybologies["qrcode"])
+		self.setSymbology(self.currentSymbology)
 		self.textWidget()
 
 		# Ajustement du texte
@@ -79,8 +84,9 @@ class FullscreenSvgApp(QWidget):
 		# Ajuster la taille de l'image
 		self.resizeEvent(None)
 
-	def chargeKeybindings(self):
+	def chargeKeybindings(self, configFile):
 		setBindings(self)
+		applyRelevantConfiguration(configFile)
 		definedKeybindings=[]
 		for aBinding in listOfKeybindings.values():
 			for aKey in aBinding.keys:
@@ -96,7 +102,6 @@ class FullscreenSvgApp(QWidget):
 
 	def openEditor(self):
 		new_text=editText(self, self.text)
-		print(new_text)
 		self.setNewText(new_text)
 
 	def openClient(self):
@@ -110,7 +115,6 @@ class FullscreenSvgApp(QWidget):
 		# Préparer le widget du texte 
 
 		# Titre (aligné à gauche)
-		print(self.text)
 		self.title_label = QLabel(prepareTitle(self.text))
 		self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
 		self.title_label.setStyleSheet("font-size: 20px; font-weight: bold;")  # Style optionnel
@@ -159,7 +163,6 @@ class FullscreenSvgApp(QWidget):
 			print("Aucun texte à symboliser n’est fourni")
 			self.error_no_text_content()
 		else:
-			print("génération")
 			self.generateImage()
 			self.svg_widget.load(self.temp_file.name)
 			self.svg_widget.repaint()
@@ -211,20 +214,22 @@ def parseArgs():
 
 	# Options sans valeur
 	parser.add_argument("-v", "--verbose", action="store_true", help="Activer le mode verbeux")
-	parser.add_argument("-s", "--from-selection", action="store_true", help="Utiliser la sélection active")
 #	parser.add_argument("-h", "--help", action="help", help="Afficher l'aide")
 	
 	# Options exclusives (dark-mode / light-mode)
-	mode_group = parser.add_mutually_exclusive_group()
-	mode_group.add_argument("--dark-mode", action="store_true", help="Activer le mode sombre")
-	mode_group.add_argument("--light-mode", action="store_true", help="Activer le mode clair")
+	#mode_group = parser.add_mutually_exclusive_group()
+	#mode_group.add_argument("--dark-mode", action="store_true", help="Activer le mode sombre")
+	#mode_group.add_argument("--light-mode", action="store_true", help="Activer le mode clair")
 
 	# Options avec valeur
 	parser.add_argument("-c", "--config-file", type=str, help="Spécifier un fichier de configuration")
-	parser.add_argument("-S", "--symbology", type=str, help="Spécifier une symbologie")
+	parser.add_argument("-S", "--symbology", type=str, help="Spécifier une symbologie", choices=listOfSybologies.keys())
 
 	# Argument positionnel pour une chaîne sans option
-	parser.add_argument("text", nargs="?", type=str, help="Texte fourni sans option")
+	groupSources = parser.add_mutually_exclusive_group()
+	groupSources.add_argument("-s", "--from-selection", action="store_true", help="Utiliser la sélection active")
+	groupSources.add_argument("-b", "--from-clipboard", action="store_true", help="Utiliser le contenu du presse-papier")
+	groupSources.add_argument("text", nargs="?", type=str, help="Texte fourni sans option")
 
 	args =parser.parse_args()
 
@@ -249,17 +254,27 @@ def get_selected_text():
 	except subprocess.CalledProcessError:
 		return None
 
+def get_clipboarded_text():
+	try:
+		return subprocess.check_output(["xclip", "-selection", "clipboard", "-o"], text=True).strip()
+	except subprocess.CalledProcessError:
+		return None
+
 def stringToConvert(args):
 	if args.from_selection == True:
 		return get_selected_text()
+	if args.from_clipboard == True:
+		return get_clipboarded_text()
 	if args.text != None:
 		return args.text
 
 if __name__ == "__main__":
 	args = parseArgs()
+	askedConfigFile=args.config_file
+	askedSymbology=args.symbology
 	app=QApplication(sys.argv)
 	text=stringToConvert(args)
-	window=FullscreenSvgApp(text)
+	window=FullscreenSvgApp(text=text, configFile=askedConfigFile, symbology=askedSymbology)
 	window.show()
 	sys.exit(app.exec())
 
