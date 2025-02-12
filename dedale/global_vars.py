@@ -1,5 +1,5 @@
 listOfSybologies={}
 listOfKeybindings={}
-editorCommand="urxvtc -e vim"
+editorCommand="xdg-open"
 #CONFIG_DIR=None
 CONFIG_DIR = {"path": None}
