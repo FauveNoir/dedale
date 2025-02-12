@@ -28,7 +28,7 @@ class Parameter():
 				valueInConfigFile=config.get("DEFAULT", self.configFile)
 				self.value=valueInConfigFile
 		except:
-			print("Fichier par défaut invalide")
+			pass
 
 
 defaultvalues={
