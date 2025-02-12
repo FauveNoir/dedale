@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QSpacerItem, QSizePolicy
 from PyQt6.QtSvgWidgets import QSvgWidget

@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: dedale
+Source: https://example.com/dedale
+
+Files: *
+Copyright: 2025 Fauve <contact@taniere.info>
+License: AGPL-3.0
+
+Comment: This package is licensed under the AGPL-3.0 license. See the LICENSE file for more information.

@@ -1,0 +1,10 @@
+Package: dedale
+Version: 0.2.0
+Architecture: all
+Maintainer: Fauve <contact@taniere.info>
+Depends: python3
+Description: utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix)
+  Dédale permet d’afficher à la volée une information sous forme de QRcode ou de Datamatrix en plein écran pour un partage rapide de donnée. Il permet aussi d’afficher rapidement en QRcode ou Datamatrix les données se trouvant dans le presse papier ou sélectionnées.
+Priority: optional
+Section: graphics
+Homepage: https://fauvenoir.github.io/dedale

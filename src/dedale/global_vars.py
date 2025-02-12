@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 listOfSybologies={}
 listOfKeybindings={}
 editorCommand="xdg-open"

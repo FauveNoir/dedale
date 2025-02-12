@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 ########################################################################
 # Variables globales
 ########################################################################
@@ -11,7 +13,7 @@ APP_AUTHOR="Fauve"
 APP_LICENCE="AGPLv3"
 APP_AUTHOR_MAIL="fauve.ordinator@taniere.info"
 APP_AUTHOR_DONATION_LINK="https://paypal.me/ihidev"
-APP_URL="http://taniere.info"
+APP_URL="https://fauvenoir.github.io/dedale"
 APP_LOGO_SVG_SQUARE="""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    width="224.06902mm"

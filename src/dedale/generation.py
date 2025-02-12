@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Selection de fichiers non occupés
 # Génération de qrcode
 import qrcode

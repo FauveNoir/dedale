@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from dedale.__init__ import *
 from dedale.global_vars import *
 # Cas particuliers des mapings où le keycode ne correspond pas au symbole produit.

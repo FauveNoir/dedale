@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from PyQt6.QtWidgets import QWidget, QTextBrowser, QVBoxLayout, QLabel
 from PyQt6.QtCore import QByteArray
 from PyQt6.QtSvgWidgets import QSvgWidget
