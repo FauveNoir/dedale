@@ -85,6 +85,7 @@ gzip --verbose --no-name -9 --to-stdout ${DEBFILESDIR}/changelog > ${DEBDIRECTOR
 
 processTitle "Copie des éxecutables"
 cp --verbose ${SOURCEDIR}/main.py ${DEBDIRECTORY}/usr/bin/${PROJECTNAME}
+ln -s ${DEBDIRECTORY}/usr/bin/${PROJECTNAME} ${DEBDIRECTORY}/usr/bin/${SECONDCOMMANDNAME}
 chmod +x ${DEBDIRECTORY}/usr/bin/${PROJECTNAME}
 for file in $(git ls-files ${SOURCEDIR}/${PROJECTNAME}/) ; do cp --verbose $file ${DEBDIRECTORY}/usr/lib/python3/dist-packages/${PROJECTNAME} ; done
 
