@@ -30,7 +30,7 @@ class Parameter():
 
 
 defaultvalues={
-	"fontfamily": "'Anonymous Pro', FiraCode, DejaVu Sans Mono, Monospace",
+	"fontfamily": "'Anonymous Pro', FiraCode, 'Fira Code', 'Fira Mono', Inconsolata,  Consolas, FreeMono, UMTypewriter, 'IBM Plex Mono', 'Noto Mono', DejaVu Sans Mono, Monospace, Monaco, Courier",
 	"editor": "xdg-open",
 	"defaultSymbology": "qrcode"
 }
