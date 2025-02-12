@@ -1,5 +1,5 @@
 Package: dedale
-Version: 0.3.0
+Version: 0.4.0
 Architecture: all
 Maintainer: Fauve <contact@taniere.info>
 Depends: python3, python3-appdirs, python3-cairosvg, python3-langdetect, python3-pillow, python3-pycountry, python3-pygments, python3-pylibdmtx, python3-pyqt6.sip, python3-pyqt6.qtsvg, python3-pyqt6, python3-magic, python3-qrcode, python3-svgwrite, python3-validators, xclip, python3-pyperclip, python3-appdirs, python3-pil
