@@ -42,14 +42,13 @@ def screenSize(app):
 
 
 class FullscreenSvgApp(QWidget):
-	def __init__(self, text=None, configFile=None, symbology="qrcode"):
+	def __init__(self, text=None, configFile=None, symbology=None):
 		super().__init__()
 
-		if symbology == None:
-			self.symbology="qrcode"
-		else:
-			self.symbology=symbology
 		self.chargeKeybindings(configFile)
+
+		self.symbology=defaultSymbology.value
+
 		# Variables primitives
 		self.currentSymbology=listOfSybologies[self.symbology]
 		self.text=text
