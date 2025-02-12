@@ -16,12 +16,14 @@ import appdirs
 # Dédale
 from dedale.__init__ import *
 from dedale.global_vars import *
+from dedale.configuration import *
+from dedale.configuration import deployDefaultConfiguration
 from dedale.generation import declareSymbologies, putSvgInClipboardAsPng
 from dedale.titlezone import prepareTitle
 from dedale.textzone import SyntaxHighlighterWidget, apply_color_animation, editText
 from dedale.helpzone import HelpWidget
 from dedale.keybindings import setBindings, Binding
-from dedale.configfile import testIfConfigFileExistAndCreateItIfNone,applyRelevantConfiguration
+from dedale.configfile import  applyRelevantConfiguration
 from dedale.args import parseArgs, stringToConvert
 from dedale.error_message import mazeShape
 import dedale.configfile as configfile
@@ -48,7 +50,6 @@ class FullscreenSvgApp(QWidget):
 		else:
 			self.symbology=symbology
 		self.chargeKeybindings(configFile)
-#		#testIfConfigFileExistAndCreateItIfNone()
 		# Variables primitives
 		self.currentSymbology=listOfSybologies[self.symbology]
 		self.text=text
@@ -88,6 +89,7 @@ class FullscreenSvgApp(QWidget):
 	def chargeKeybindings(self, configFile):
 		setBindings(self)
 		applyRelevantConfiguration(configFile)
+		deployDefaultConfiguration()
 		definedKeybindings=[]
 		for aBinding in listOfKeybindings.values():
 			for aKey in aBinding.keys:
@@ -112,7 +114,7 @@ class FullscreenSvgApp(QWidget):
 		self.helpZone.show()
 
 	def textWidget(self):
-		font = QFont("Anonymous Pro, FiraCode, DejaVu Sans Mono, Monospace")
+		font = QFont(fontfamily.value)
 		# Préparer le widget du texte 
 
 		# Titre (aligné à gauche)

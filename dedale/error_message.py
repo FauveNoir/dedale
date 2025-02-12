@@ -1,6 +1,6 @@
 
 
-mazeShape="""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+mazeShape=f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    id="svg76"
    width="48.108mm"
@@ -53,7 +53,7 @@ mazeShape="""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
    x="292.51227"
    y="48.968971"
    fill="#000000"
-   font-family="'Anonymous Pro'"
+   font-family="Anonymous Pro"
    font-size="1.8194px"
    letter-spacing="0px"
    stroke-width="0.95368"

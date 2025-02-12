@@ -15,6 +15,7 @@ import sys
 
 from dedale.__init__ import *
 from dedale.global_vars import *
+from dedale.configuration import *
 
 class SyntaxHighlighterWidget(QTextEdit):
 	def __init__(self, text=None, parent=None):
@@ -62,7 +63,7 @@ class SyntaxHighlighterWidget(QTextEdit):
 						}}
 						* {{
 							font-size: 12px;
-							font-familly: "Anonymous Pro", FiraCode, "DejaVu Sans Mono", Monospace;
+							font-familly: {fontfamily.value};
 						}}
 					</style>
 				</head>

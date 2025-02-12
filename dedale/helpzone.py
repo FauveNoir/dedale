@@ -5,6 +5,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 from dedale.__init__ import *
 from dedale.global_vars import *
+from dedale.configuration import *
 
 def prepareDlSection():
 	dlSection=""
@@ -62,7 +63,7 @@ def fullHtmlContent():
 				<style>
 				*, h1 {{
 					font-size: 14px;
-					font-family: "Anonymous Pro", FiraCode, "DejaVu Sans Mono", Monospace;
+					font-family: {fontfamily.value};
 					border: none;
 				}}
 				kbd {{
@@ -125,7 +126,7 @@ class HelpWidget(QWidget):
 		layout.addWidget(logo)
 
 		# Description
-		font = QFont("Anonymous Pro, FiraCode, DejaVu Sans Mono, Monospace")
+		font = QFont(fontfamily.value)
 		bottomLabel = QLabel(APP_LONG_DESCRIPTION)
 		bottomLabel.setFont(font)
 		bottomLabel.setStyleSheet("font-size: 12px; font-weight: bold;")  # Style optionnel
