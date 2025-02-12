@@ -212,7 +212,6 @@ class FullscreenSvgApp(QWidget):
 		self.setNewText(clipboard.text())
 
 
-
 if __name__ == "__main__":
 	args = parseArgs()
 	askedConfigFile=args.config_file

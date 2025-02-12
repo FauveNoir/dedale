@@ -1,0 +1,43 @@
+import configparser
+import os
+
+from dedale.__init__ import *
+from dedale.global_vars import *
+from dedale.configuration import *
+
+class Parameter():
+	def __init__(self, name=None, configFile=None, value=None, defaultValue=None):
+		self.name=name
+		if configFile==None:
+			self.configFile=self.name
+		else:
+			self.configFile=configFile
+		self.defaultValue=defaultValue
+		self.value=self.defaultValue
+
+		self.getConfiguredValue()
+		globals()[self.name]=self
+
+	def getConfiguredValue(self):
+		try:
+			config = configparser.ConfigParser()
+			config.read_string("[DEFAULT]\n" + open(CONFIG_DIR["path"]).read())
+			if config.has_option("DEFAULT", self.configFile):
+				valueInConfigFile=config.get("DEFAULT", self.configFile)
+				self.value=valueInConfigFile
+		except:
+			print("Fichier par défaut invalide")
+
+
+defaultvalues={
+	"fontfamily": "'Anonymous Pro', FiraCode, DejaVu Sans Mono, Monospace",
+	"editor": "xdg-open",
+	"defaultSymbology": "qrcode"
+}
+
+
+def deployDefaultConfiguration():
+	for key, value in defaultvalues.items():
+		Parameter(name=key, defaultValue=value)
+
+deployDefaultConfiguration()
