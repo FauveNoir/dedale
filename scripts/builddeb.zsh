@@ -78,7 +78,8 @@ exa -T deb
 #mkdir --verbose --parent ${DEBDIRECTORY}/usr/share/bash-completion/completions # Autocompletion pour bash
 
 processTitle "Copie des fichiers de construction à leur emplacement idoine"
-cp --verbose ${DEBFILESDIR}/control ${DEBDIRECTORY}/DEBIAN/
+cp --verbose ${DEBFILESDIR}/control ${DEBDIRECTORY}/DEBIAN/control
+./scripts/foldfiles.py ${DEBFILESDIR}/control ${DEBDIRECTORY}/DEBIAN/control
 cp --verbose ${DEBFILESDIR}/copyright ${DEBDIRECTORY}/usr/share/doc/${PROJECTNAME}/
 cp --verbose ${DEBFILESDIR}/LICENSE ${DEBDIRECTORY}/usr/share/doc/${PROJECTNAME}/
 gzip --verbose --no-name -9 --to-stdout ${DEBFILESDIR}/changelog > ${DEBDIRECTORY}/usr/share/doc/${PROJECTNAME}/changelog.gz
