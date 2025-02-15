@@ -5,6 +5,7 @@ PROJECTNAME=dedale
 DOCKERCONTAINER=${PROJECTNAME}-test-deb
 DOCKERSWAPDIRECTORY=$(PWD)/docker-test
 DEBDIRECTORY=$(PWD)/deb
+DATE=$(shell date -I)
 
 getcurrentversion:
 	@cat .bumpversion.cfg | grep "current_version =" | sed "s/.* = \(.*\)/\1/"
@@ -25,8 +26,16 @@ testdeb:
 	@echo "# Lancement du conteneur"
 	docker run --name ${DOCKERCONTAINER} -it --rm -v ${DOCKERSWAPDIRECTORY}:/mnt debian:bookworm-slim bash -c "apt-get update ; apt-get install --assume-yes man manpages man-db ; mandb ; PATH=$$PATH/:/usr/games ; dpkg -i /mnt/${PROJECTNAME}.deb ; apt-get install --fix-broken --assume-yes; ${PROJECTNAME} ; bash"
 
+website:
+	java -jar /usr/share/java/Saxon-HE-9.9.1.5.jar \
+		-s:docfiles/man.xml \
+		-xsl:scripts/manpage_stylesheet.xslt \
+		-o:docs/index.html \
+		date="${DATE}"
+
 man:
-	cp config/${PROJECTNAME}.troff ${DEBDIRECTORY}/usr/share/man/man6/${PROJECTNAME}.1 ; gzip ${DEBDIRECTORY}/usr/share/man/man6/${PROJECTNAME}.1
+	echo "Nothing to do"
+#	cp config/${PROJECTNAME}.troff ${DEBDIRECTORY}/usr/share/man/man6/${PROJECTNAME}.1 ; gzip ${DEBDIRECTORY}/usr/share/man/man6/${PROJECTNAME}.1
 
 autocomplete:
 	echo "Nothing to do"
