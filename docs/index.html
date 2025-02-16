@@ -1,0 +1,172 @@
+
+	
+
+
+	<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="author" content="Fauve">
+      <link rel="shortcut icon" href="./favicon.png">
+      <title>Dédale — Utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix)</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="./default.css" rel="stylesheet">
+      <link href="./molokai.css" rel="stylesheet"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script></head>
+   <body>
+      <nav class="header"><span>Dédale(1)
+            		</span><span>Commandes générales </span><span>Dédale(1)
+            		</span></nav>
+      <article>
+         		
+         <h2><a name="Name"></a><a href="#Name">Name</a></h2>
+         <p><span>Dédale</span> — <span>Utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix)</span></p>
+         
+         		
+         <h2><a name="Synopsis"></a><a href="#Synopsis">Synopsis</a></h2>
+         		
+         
+         		
+         <h2><a name="Description"></a><a href="#Description">Description</a></h2>
+         			
+         <p>
+            				<b class="constant">Dédale</b> permet d’afficher à la volée en plein écran des QRcodes ou Datamatrix d’après les
+            données entrées en ligne de commande, actuelleent sélectionées, ou dans le presse-papier.
+            Il est conçu pour transmettre rapidement une information rapidement depuis une station
+            de travail vers un périphérique cappable de scanner une symbologie. Un usage typique
+            consisterait à vouloir transmettre depuis une station de travail vers un téléphone
+            se trouvant à proximité une url complexe, ou bien même un simple numéro de téléphone,
+            ou de façon générale toute information pouvant être stoquée dans une symbologie.
+            			</p>
+         		
+         
+         		
+         <h2><a name="Terminology"></a><a href="#Terminology">Terminology</a></h2>
+         			
+         <p>
+            				Le terme de symbologie est utilisé pour désigner n’importe quel symbole plus ou
+            moins complexe sensé entretenir une correspondance avec un texte donné, et souvent
+            nomé improprement «&nbsp;Code barre en 2D&nbsp;». Ainsi le format QRcode ou Datamatrix sont
+            désignés par le terme générique de symbologie.
+            			</p>
+         		
+         		
+         <h2><a name="Options"></a><a href="#Options">Options</a></h2>
+         <dl>
+            <dt><a name="option--help"></a><a href="#option--help"><span class="option">-h</span></a>,
+               			<a href="#option--help"><span class="option">--help</span></a></dt>
+            <dd>show this help message and exit</dd> 
+            <dt><a name="option--config-file"></a><a href="#option--config-file"><span class="option">-c</span> <var>config_file</var></a>,
+               			<a href="#option--config-file"><span class="option">--config-file</span> <var>config_file</var></a></dt>
+            <dd>Spécifier un fichier de configuration</dd> 
+            <dt><a name="option--symbology"></a><a href="#option--symbology"><span class="option">-S</span> <var>symbology</var></a>,
+               			<a href="#option--symbology"><span class="option">--symbology</span> <var>symbology</var></a></dt>
+            <dd>Spécifier une symbologie</dd> 
+            <dt><a name="option--from-selection"></a><a href="#option--from-selection"><span class="option">-s</span></a>,
+               			<a href="#option--from-selection"><span class="option">--from-selection</span></a></dt>
+            <dd>Utiliser la sélection active</dd> 
+            <dt><a name="option--from-clipboard"></a><a href="#option--from-clipboard"><span class="option">-b</span></a>,
+               			<a href="#option--from-clipboard"><span class="option">--from-clipboard</span></a></dt>
+            <dd>Utiliser le contenu du presse-papier</dd>
+         </dl>
+         
+         		
+         <h2><a name="Examples"></a><a href="#Examples">Examples</a></h2>
+         			
+         <h3><a name="Suggestion_de_configuration_pour_i3"></a><a href="#Suggestion_de_configuration_pour_i3">Suggestion de configuration pour i3</a></h3>
+         			
+         <pre class="language-i3"><code class="language-i3">bindcode $mod+60               exec $(qr --from-selection)
+bindcode $mod+Shift+60         exec $(qr --from-clipboard)</code></pre>
+         		
+         
+         		
+         <h2><a name="Bindings"></a><a href="#Bindings">Bindings</a></h2>
+         <dl>
+            <dt><a name="bindings-toggleToQrcode"></a><a href="#bindings-toggleToQrcode"><kbd>a</kbd></a></dt>
+            <dd>Symboliser en QRcode</dd> 
+            <dt><a name="bindings-toggleToDatamatrix"></a><a href="#bindings-toggleToDatamatrix"><kbd>u</kbd></a></dt>
+            <dd>Symboliser en Datamatrix</dd> 
+            <dt><a name="bindings-edit"></a><a href="#bindings-edit"><kbd>c</kbd></a></dt>
+            <dd>Ouvrir le texte dans un éditeur</dd> 
+            <dt><a name="bindings-copyTextToClipboard"></a><a href="#bindings-copyTextToClipboard"><kbd>y, </kbd><kbd>Ctrl+C</kbd></a></dt>
+            <dd>Copier le texte dans le presse-papier</dd> 
+            <dt><a name="bindings-copySymbologyToClipboard"></a><a href="#bindings-copySymbologyToClipboard"><kbd>Shift+y, </kbd><kbd>Ctrl+Shift+C</kbd></a></dt>
+            <dd>Copier la symbologie dans le presse-papier</dd> 
+            <dt><a name="bindings-pasteFromClipboard"></a><a href="#bindings-pasteFromClipboard"><kbd>p, </kbd><kbd>Ctrl+v</kbd></a></dt>
+            <dd>Symboliser le contenu du presse-papier</dd> 
+            <dt><a name="bindings-showHelp"></a><a href="#bindings-showHelp"><kbd>h</kbd></a></dt>
+            <dd>Montrer l’aide</dd> 
+            <dt><a name="bindings-close"></a><a href="#bindings-close"><kbd>q</kbd></a></dt>
+            <dd>Quitter</dd> 
+            <dt><a name="bindings-donate"></a><a href="#bindings-donate"><kbd>d</kbd></a></dt>
+            <dd>Faire un don</dd>
+         </dl>
+         
+         		
+         		
+         
+         		
+         <h2><a name="Configuration"></a><a href="#Configuration">Configuration</a></h2>
+         		
+         
+         		
+         <h2><a name="Installation"></a><a href="#Installation">Installation</a></h2>
+         			
+         <h3><a name="Debian,_Ubuntu,_et_debianides"></a><a href="#Debian,_Ubuntu,_et_debianides">Debian, Ubuntu, et debianides</a></h3>
+         			
+         <pre class="language-sh"><code class="language-sh">wget --output-document=dedale.deb https://github.com/FauveNoir/dedale/raw/main/dedale.deb &amp;&amp; \
+sudo dpkg --install dedale.deb &amp;&amp; \
+sudo apt-get install --fix-broken --assume-yes</code></pre>
+         		
+         
+         		
+         <h2><a name="Todo"></a><a href="#Todo">Todo</a></h2>
+         		
+         
+         		
+         <h2><a name="Screenshots"></a><a href="#Screenshots">Screenshots</a></h2>
+         		
+         
+         
+         	
+         <h2><a name="Liens"></a><a href="#Liens">Liens</a></h2>
+         <h3><a name="Site_web"></a><a href="#Site_web">Site web</a></h3>
+         <p><a class="link" href="https://fauvenoir.github.io/triumphum/">https://fauvenoir.github.io/triumphum/</a></p>
+         <h3><a name="Depot_git"></a><a href="#Depot_git">Dépot git</a></h3>
+         <p><a class="link" href="https://fauvenoir.github.io/triumphum/">https://fauvenoir.github.io/triumphum/</a></p>
+         <h3><a name="Dons"></a><a href="#Dons">Dons</a></h3>
+         <p>Pour soutenir Dédale et faire en sorte qu’il continue et s’améliore, merci de faire
+            un don sur
+            		<a class="link" href="https://paypal.me/ihidev">https://paypal.me/ihidev</a>.
+            		</p>
+         <h2><a name="Auteur"></a><a href="#Auteur">Auteur</a></h2>
+         <p>Écrit par Fauve alias
+            		Idriss al Idrissi.
+            	</p>
+      </article>
+      <nav class="footer"><span></span><span>2025-02-16</span> <span>Dédale(1)
+            		</span></nav>
+   </body><script>
+	/* Faire en sorte que les descriptions dd se trouvant à droite de label dt suffisement soient hissés à la même hauteur.*/
+
+	let maxWidthForSameLineDescription;
+
+	if (window.innerWidth < 600) {
+		maxWidthForSameLineDescription = 3;
+	} else {
+		maxWidthForSameLineDescription = 7;
+	}
+
+	function chToPx(ch) {
+		const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize); // Taille de la police en px
+		const chWidth = fontSize * 0.5; // Approximativement la largeur d'un "0" en ch, selon la police
+		return ch * chWidth;
+	}
+	document.querySelectorAll("dt").forEach(dt => {
+		console.log(dt)
+		if (dt.offsetWidth < chToPx(maxWidthForSameLineDescription) ) {
+			const dd = dt.nextElementSibling;
+			if (dd && dd.tagName.toLowerCase() === "dd") {
+				dd.style.marginTop = "-1.1em";
+			}
+		}
+	});
+	</script></html>

@@ -1,0 +1,230 @@
+body
+{
+	color: #d0d0d0;
+	background-color: #121212;
+}
+
+a[href]
+{
+	color: inherit;
+	font-weight: unset;
+	transition: text-shadow 0.5s ease 0s;
+}
+
+a[href].link
+{
+	color: #007EDF;
+}
+
+a[href]:hover
+{
+	color: #0069BA;
+}
+
+a.displayedLink[href]
+{
+	color: #ff8700;
+}
+
+a.displayedLink[href]:hover
+{
+	color: #ff8700;
+}
+
+a.displayedLink:before, a.displayedLink:after
+{
+	content: "|";
+	font-weight: normal;
+	color: #808080;
+}
+
+
+.constant
+{
+	color: #ff8700;
+}
+
+.option, a.option
+{
+	color: #af5fff;
+}
+
+var
+{
+	text-decoration: underline;
+	text-transform: uppercase;
+	font-style: normal;
+}
+
+.externalCommand
+{
+	font-weight: normal;
+	color: #87ff00;
+}
+nav
+{
+	color: #d75f00;
+}
+
+
+h2, a[href].ref-to-h2
+{
+	color: #d7005f;
+}
+h3, h4, h5, h6, h7,
+a[href].ref-to-h3, a[href].ref-to-h4, a[href].ref-to-h5, a[href].ref-to-h6, a[href].ref-to-h7
+{
+	font-weight: normal;
+	color: #87ff00;
+}
+
+nav.footer
+{
+	color: #87ff00;
+}
+
+
+.Function { color: #87ff00; font-weight: normal;}
+.Special { color: #5fd7ff; background-color: #080808; padding-bottom: 1px; }
+.Comment { color: #5f5f5f; }
+.Underlined { color: #808080; text-decoration: underline; }
+.LineNr { color: #bcbcbc; background-color: #1c1c1c; padding-bottom: 1px; }
+.Title { color: #d75f00; }
+.Statement { color: #d7005f; font-weight: bold; }
+.PreProc { color: #87ff00; }
+.Type { color: #5fd7ff; font-weight: normal;}
+.Identifier { color: #ff8700; font-weight: bold; }
+.String { font-style: normal; color: #afaf87; }
+.Ignore { color: #808080; background-color: #080808; }
+.Label { color: #ffffaf; }
+.Delimiter { color: #626262; }
+.String { color: #afaf87; }
+.Number { color: #af5fff; }
+
+
+/************************************************************************
+ *
+ ***********************************************************************/
+@keyframes rotationTranslation {
+	0% {
+	transform: rotate(0deg)  ;
+	}
+	100% {
+	transform: rotate(-1080deg) ;
+	}
+}
+
+@keyframes swordTranslation {
+	0% {
+	transform: scale(2) translateY(-30px)  ;
+	}
+	100% {
+	transform: scale(1) translateY(0) ;
+	}
+}
+
+#sword  {
+	transform: scale(2) translateY(-30px)  ;
+	transform-origin: -30px 350px;
+	animation: swordTranslation 4s ease-in-out forwards;
+	animation-delay: 4s;
+}
+
+#sword > g {
+	animation: rotationTranslation 4s ease-in-out forwards;
+	animation-delay: 4s;
+	transform-origin: -30px 350px;
+}
+
+svg, svg > g
+{
+	overflow: visible;
+}
+
+/************************************************************************
+* Opening sequence
+************************************************************************/
+
+#opening-sequence
+{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	pointer-events: none; 
+}
+
+#opening-sequence > div
+{
+	position: relative;
+	height: 100vh;
+}
+
+#opening-sequence  #left-side,
+#opening-sequence  #right-side
+{
+	background-color: #d7005f;
+	background-color: #bc041d;
+	width: 100vw;
+	height: 200vh;
+	position: absolute;
+	bottom: 0;
+}
+
+@keyframes openingsword {
+	0% {
+	transform: scale(3) translateY(-9vh)  rotate(30deg);
+	}
+	100% {
+	transform: scale(4) translateY(35vh)  rotate(130deg);
+	}
+}
+
+@keyframes left-side-movement {
+	0% {
+	transform:  translateX(0vw) rotate(0deg);
+	}
+	100% {
+	transform: translateX(50vw) rotate(-100deg);
+	}
+}
+
+@keyframes right-side-movement {
+	0% {
+	transform:  translateX(0vw) rotate(0deg);
+	}
+	100% {
+	transform: translateX(-50vw) rotate(100deg);
+	}
+}
+
+#opening-sequence  #left-side
+{
+	right: 50vw;
+	z-index: 50;
+	transform-origin: bottom right;
+	animation: left-side-movement 4s ease-in forwards;
+}
+
+#opening-sequence  #opening-sword
+{
+	position: absolute;
+	height: 33vh;
+	top: 0;
+	left: 50vw;
+	z-index: 51;
+	animation: openingsword 5s  cubic-bezier(0.85, 0.85, 0.3, 0.1) forwards;
+}
+
+#opening-sequence  #opening-sword div > svg
+{
+	filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5)); /
+}
+
+#opening-sequence  #right-side
+{
+	left: 50vw;
+	z-index: 52;
+	transform-origin: bottom left;
+	animation: right-side-movement 4s ease-in forwards;
+}

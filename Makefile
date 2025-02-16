@@ -7,6 +7,7 @@ DOCKERSWAPDIRECTORY=$(PWD)/docker-test
 DEBDIRECTORY=$(PWD)/deb
 DATE=$(shell date -I)
 OPTIONS=$(shell python3 src/getOptions.py)
+KEYBINDINGS=$(shell python3 src/getKeybindings.py)
 
 
 getcurrentversion:
@@ -29,12 +30,12 @@ testdeb:
 	docker run --name ${DOCKERCONTAINER} -it --rm -v ${DOCKERSWAPDIRECTORY}:/mnt debian:bookworm-slim bash -c "apt-get update ; apt-get install --assume-yes man manpages man-db ; mandb ; PATH=$$PATH/:/usr/games ; dpkg -i /mnt/${PROJECTNAME}.deb ; apt-get install --fix-broken --assume-yes; ${PROJECTNAME} ; bash"
 
 website:
-	echo "${OPTIONS}"
 	java -jar /usr/share/java/Saxon-HE-9.9.1.5.jar \
 		-s:docfiles/man.xml \
 		-xsl:scripts/manpage_stylesheet.xslt \
 		-o:docs/index.html \
-		optionsContent='${OPTIONS}' \
+		optionsContent='<root>${OPTIONS}</root>' \
+		keybindingsContent='<root>${KEYBINDINGS}</root>' \
 		date="${DATE}"
 
 man:
