@@ -9,11 +9,11 @@ import subprocess
 from dedale.__init__ import *
 from dedale.global_vars import *
 
-def parseArgs():
+def getParser():
 	parser = argparse.ArgumentParser(description="Gestion des options en ligne de commande.")
 
 	# Options sans valeur
-	parser.add_argument("-v", "--verbose", action="store_true", help="Activer le mode verbeux")
+#	parser.add_argument("-v", "--verbose", action="store_true", help="Activer le mode verbeux")
 #	parser.add_argument("-h", "--help", action="help", help="Afficher l'aide")
 	
 	# Options exclusives (dark-mode / light-mode)
@@ -30,6 +30,12 @@ def parseArgs():
 	groupSources.add_argument("-s", "--from-selection", action="store_true", help="Utiliser la sélection active")
 	groupSources.add_argument("-b", "--from-clipboard", action="store_true", help="Utiliser le contenu du presse-papier")
 	groupSources.add_argument("text", nargs="?", type=str, help="Texte fourni sans option")
+
+	return parser
+
+def parseArgs():
+
+	parser = getParser()
 
 	args =parser.parse_args()
 
