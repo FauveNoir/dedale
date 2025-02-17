@@ -5,8 +5,8 @@
 		<codeName>dedale</codeName>
 		<altCodeName>qr</altCodeName>
 		<shortDesc>Utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix)</shortDesc>
-		<website>https://fauvenoir.github.io/triumphum/</website>
-		<repository>https://fauvenoir.github.io/triumphum/</repository>
+		<website>https://fauvenoir.github.io/dedale/</website>
+		<repository>https://fauvenoir.github.io/dedale/</repository>
 		<donationLink>https://paypal.me/ihidev</donationLink>
 		<author>Fauve</author>
 		<authorCivilName>Idriss al Idrissi</authorCivilName>
