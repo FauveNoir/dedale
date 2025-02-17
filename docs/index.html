@@ -22,7 +22,9 @@
          
          		
          <h2><a name="Synopsis"></a><a href="#Synopsis">Synopsis</a></h2>
-         		
+         <div class="synopsis">
+            			{<b class="constant">dedale</b>|<b class="constant">qr</b>}
+            			[<a class="option" href="#option--help">-h</a>] [<a class="option" href="#option--config-file">-c</a> CONFIG_FILE] [<a class="option" href="#option--symbology">-S</a> {qrcode,datamatrix}] [<a class="option" href="#option--from-selection">-s</a>] [<a class="option" href="#option--from-clipboard">-b</a>]                       [text]</div>
          
          		
          <h2><a name="Description"></a><a href="#Description">Description</a></h2>
@@ -35,6 +37,12 @@
             consisterait à vouloir transmettre depuis une station de travail vers un téléphone
             se trouvant à proximité une url complexe, ou bien même un simple numéro de téléphone,
             ou de façon générale toute information pouvant être stoquée dans une symbologie.
+            			</p>
+         			
+         <h3><a name="Note_sur_la_commande_dappel"></a><a href="#Note_sur_la_commande_dappel">Note sur la commande d’appel</a></h3>
+         			
+         <p>
+            				<b class="constant">Dédale</b> peut aussi bien être appelé par la commande dedale qu’avec la commande qr pour davantage de brièveté.
             			</p>
          		
          
@@ -52,19 +60,19 @@
          <h2><a name="Options"></a><a href="#Options">Options</a></h2>
          <dl>
             <dt><a name="option--help"></a><a href="#option--help"><span class="option">-h</span></a>,
-               			<a href="#option--help"><span class="option">--help</span></a></dt>
+               				<a href="#option--help"><span class="option">--help</span></a></dt>
             <dd>show this help message and exit</dd> 
             <dt><a name="option--config-file"></a><a href="#option--config-file"><span class="option">-c</span> <var>config_file</var></a>,
-               			<a href="#option--config-file"><span class="option">--config-file</span> <var>config_file</var></a></dt>
+               				<a href="#option--config-file"><span class="option">--config-file</span> <var>config_file</var></a></dt>
             <dd>Spécifier un fichier de configuration</dd> 
             <dt><a name="option--symbology"></a><a href="#option--symbology"><span class="option">-S</span> <var>symbology</var></a>,
-               			<a href="#option--symbology"><span class="option">--symbology</span> <var>symbology</var></a></dt>
+               				<a href="#option--symbology"><span class="option">--symbology</span> <var>symbology</var></a></dt>
             <dd>Spécifier une symbologie</dd> 
             <dt><a name="option--from-selection"></a><a href="#option--from-selection"><span class="option">-s</span></a>,
-               			<a href="#option--from-selection"><span class="option">--from-selection</span></a></dt>
+               				<a href="#option--from-selection"><span class="option">--from-selection</span></a></dt>
             <dd>Utiliser la sélection active</dd> 
             <dt><a name="option--from-clipboard"></a><a href="#option--from-clipboard"><span class="option">-b</span></a>,
-               			<a href="#option--from-clipboard"><span class="option">--from-clipboard</span></a></dt>
+               				<a href="#option--from-clipboard"><span class="option">--from-clipboard</span></a></dt>
             <dd>Utiliser le contenu du presse-papier</dd>
          </dl>
          
@@ -75,6 +83,17 @@
          			
          <pre class="language-i3"><code class="language-i3">bindcode $mod+60               exec $(qr --from-selection)
 bindcode $mod+Shift+60         exec $(qr --from-clipboard)</code></pre>
+         			
+         <h3><a name="Suggestion_de_configuration_pour_KDE"></a><a href="#Suggestion_de_configuration_pour_KDE">Suggestion de configuration pour KDE</a></h3>
+         			
+         <p>Éditez le fichier ~/.kde/share/config/kglobalshortcutsrc, et ajoutez-y la configuration
+            suivante</p>
+         			
+         <pre class="language-confini"><code class="language-confini">[Global Shortcuts]
+qr-ctrlh=Ctrl+H,none,qr --from-selection
+qr-shift-ctrlh=Ctrl+Shift+H,none,qr --from-clipboard</code></pre>
+         			
+         <p>Enregistrez, en suite saisissez sur le shell kwriteconfig5 --file kwinrc afin que les modifications prennent effet.</p>
          		
          
          		
@@ -105,28 +124,109 @@ bindcode $mod+Shift+60         exec $(qr --from-clipboard)</code></pre>
          
          		
          <h2><a name="Configuration"></a><a href="#Configuration">Configuration</a></h2>
-         		
+         			
+         <p>Le fichier de configuration est $HOME/.config/dedalerc (ou %APPDATA%\dedalerc sous Windows).</p>
          
-         		
+         			
+         <p>Les définitions y sont au format unixconf où chaque ligne représente une définition
+            qui est elle même de la forme clé=valeur. Dans le cas des définitions de raccourcis-clavier les valeurs peuvent être multiples
+            et sont dans ce cas séparées par des virgules </p>
+         
+         				
+         <dl>
+            					
+            <dt>language</dt>
+            					
+            <dd>Langue de l’application (pour l’instant fre seulement) (Défaut&nbsp;: fre)</dd>
+            
+            					
+            <dt>editorCommand</dt>
+            					
+            <dd>Éditeur de texte à utiliser pour les modifications (Défaut&nbsp;: "urxvtc -e vim")</dd>
+            
+            					
+            <dt>toggleToQrcode</dt>
+            					
+            <dd>Symboliser en QRcode (Défaut&nbsp;: a)</dd>
+            
+            					
+            <dt>toggleToDatamatrix</dt>
+            					
+            <dd>Symboliser en Datamatrix (Défaut&nbsp;: u)</dd>
+            
+            					
+            <dt>edit</dt>
+            					
+            <dd>Ouvrir le texte dans un éditeur (Défaut&nbsp;: c)</dd>
+            
+            					
+            <dt>copyTextToClipboard</dt>
+            					
+            <dd>Copier le texte dans le presse-papier (Défaut&nbsp;: y, Ctrl+C)</dd>
+            
+            					
+            <dt>copySymbologyToClipboard</dt>
+            					
+            <dd>Copier la symbologie dans le presse-papier (Défaut&nbsp;: Shift+y, Ctrl+Shift+C)</dd>
+            
+            					
+            <dt>pasteFromClipboard</dt>
+            					
+            <dd>Symboliser le contenu du presse-papier (Défaut&nbsp;: p, Ctrl+v)</dd>
+            
+            					
+            <dt>showHelp</dt>
+            					
+            <dd>Montrer l’aide (Défaut&nbsp;: h)</dd>
+            
+            					
+            <dt>close</dt>
+            					
+            <dd>Quitter (Défaut&nbsp;: q)</dd>
+            
+            					
+            <dt>donate</dt>
+            					
+            <dd>Faire un don (Défaut&nbsp;: d)</dd>
+            
+            				</dl>
+         
+         
+         			
+         
+         			
          <h2><a name="Installation"></a><a href="#Installation">Installation</a></h2>
-         			
+         				
          <h3><a name="Debian,_Ubuntu,_et_debianides"></a><a href="#Debian,_Ubuntu,_et_debianides">Debian, Ubuntu, et debianides</a></h3>
-         			
+         				
          <pre class="language-sh"><code class="language-sh">wget --output-document=dedale.deb https://github.com/FauveNoir/dedale/raw/main/dedale.deb &amp;&amp; \
 sudo dpkg --install dedale.deb &amp;&amp; \
 sudo apt-get install --fix-broken --assume-yes</code></pre>
-         		
+         			
          
-         		
-         <h2><a name="Todo"></a><a href="#Todo">Todo</a></h2>
-         		
-         
-         		
+         			
          <h2><a name="Screenshots"></a><a href="#Screenshots">Screenshots</a></h2>
+         			
+         <h3><a name="Texte_libre"></a><a href="#Texte_libre">Texte libre</a></h3>
+         			<img src="../screenshots/dedale_screenshot_texte-libre.png">
+         			
+         <h3><a name="Code_source_en_Python"></a><a href="#Code_source_en_Python">Code source en Python</a></h3>
+         			<img src="../screenshots/dedale_screenshot_python-script.png">
+         			
+         <h3><a name="Message_derreur_en_cas_dabsence_de_texte_en_entree"></a><a href="#Message_derreur_en_cas_dabsence_de_texte_en_entree">Message d’erreur en cas d’absence de texte en entrée</a></h3>
+         			<img src="../screenshots/dedale_screenshot_erreur.png">
+         			
+         <h3><a name="Ecran_daide"></a><a href="#Ecran_daide">Écran d’aide</a></h3>
+         			<img src="../screenshots/dedale_screenshot_aide.png">
+         			
+         
+         			
+         <h2>Seealso</h2>
+         <p><a href="https://fukuchi.org/works/qrencode/"><span class="externalCommand usermanual">Qrencode(1)</span></a>, <a href="https://code.google.com/archive/p/qtqr/"><span class="externalCommand usermanual">QtQR(1)</span></a>.
+            		</p>
+         
+         
          		
-         
-         
-         	
          <h2><a name="Liens"></a><a href="#Liens">Liens</a></h2>
          <h3><a name="Site_web"></a><a href="#Site_web">Site web</a></h3>
          <p><a class="link" href="https://fauvenoir.github.io/triumphum/">https://fauvenoir.github.io/triumphum/</a></p>
@@ -142,31 +242,32 @@ sudo apt-get install --fix-broken --assume-yes</code></pre>
             		Idriss al Idrissi.
             	</p>
       </article>
-      <nav class="footer"><span></span><span>2025-02-16</span> <span>Dédale(1)
+      <nav class="footer"><span></span><span>2025-02-17</span> <span>Dédale(1)
             		</span></nav>
    </body><script>
-	/* Faire en sorte que les descriptions dd se trouvant à droite de label dt suffisement soient hissés à la même hauteur.*/
+		/* Faire en sorte que les descriptions dd se trouvant à droite de label dt suffisement soient hissés à la même hauteur.*/
 
-	let maxWidthForSameLineDescription;
+		let maxWidthForSameLineDescription;
 
-	if (window.innerWidth < 600) {
+		if (window.innerWidth < 600) {
 		maxWidthForSameLineDescription = 3;
-	} else {
+		} else {
 		maxWidthForSameLineDescription = 7;
-	}
+		}
 
-	function chToPx(ch) {
+		function chToPx(ch) {
 		const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize); // Taille de la police en px
 		const chWidth = fontSize * 0.5; // Approximativement la largeur d'un "0" en ch, selon la police
 		return ch * chWidth;
-	}
-	document.querySelectorAll("dt").forEach(dt => {
+		}
+		document.querySelectorAll("dt").forEach(dt => {
 		console.log(dt)
 		if (dt.offsetWidth < chToPx(maxWidthForSameLineDescription) ) {
-			const dd = dt.nextElementSibling;
-			if (dd && dd.tagName.toLowerCase() === "dd") {
-				dd.style.marginTop = "-1.1em";
-			}
+		const dd = dt.nextElementSibling;
+		if (dd && dd.tagName.toLowerCase() === "dd") {
+		dd.style.marginTop = "-1.1em";
 		}
-	});
+		}
+		});
 	</script></html>
+	

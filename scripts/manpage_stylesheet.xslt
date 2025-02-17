@@ -5,6 +5,7 @@
 	<!-- Récupération des variables globales -->
 	<xsl:variable name="name" select="/man/head/name"/>
 	<xsl:variable name="codeName" select="/man/head/codeName"/>
+	<xsl:variable name="altCodeName" select="/man/head/altCodeName"/>
 	<xsl:variable name="shortDesc" select="/man/head/shortDesc"/>
 	<xsl:variable name="website" select="/man/head/website"/>
 	<xsl:variable name="repository" select="/man/head/repository"/>
@@ -15,6 +16,7 @@
 	<xsl:param name="date"/>
 	<xsl:param name="optionsContent"/>
 	<xsl:param name="keybindingsContent"/>
+	<xsl:param name="synopsisContent"/>
 
 
 
@@ -25,6 +27,10 @@
 
 	<xsl:template match="ref[@select='codeName']">
 		<xsl:value-of select="$codeName"/>
+	</xsl:template>
+
+	<xsl:template match="ref[@select='altCodeName']">
+		<xsl:value-of select="$altCodeName"/>
 	</xsl:template>
 
 	<!-- Traitement des balises transparentes -->
@@ -42,6 +48,13 @@
 			</code>
 		</pre>
 	</xsl:template>
+
+<xsl:template match="img">
+	<xsl:copy>
+		<xsl:copy-of select="@*" />
+	</xsl:copy>
+</xsl:template>
+
 
 	<!-- Transformation des liens en liens cliquables -->
 	<xsl:template name="transform-to-link">
@@ -70,36 +83,63 @@
 					<xsl:text> </xsl:text>
 					<var><xsl:value-of select="var" /></var>
 				</xsl:if>
-			</a>,
-			<a href="#option{big}">
-				<span class="option">
-					<xsl:value-of select="big" />
-				</span>
-				<xsl:if test="var">
-					<xsl:text> </xsl:text>
-					<var><xsl:value-of select="var" /></var>
-				</xsl:if>
-			</a>
-		</dt>
-		<dd><xsl:value-of select="description" /></dd>
+				</a>,
+				<a href="#option{big}">
+					<span class="option">
+						<xsl:value-of select="big" />
+					</span>
+					<xsl:if test="var">
+						<xsl:text> </xsl:text>
+						<var><xsl:value-of select="var" /></var>
+					</xsl:if>
+				</a>
+			</dt>
+			<dd><xsl:value-of select="description" /></dd>
+		</xsl:template>
+
+		<xsl:template match="manentry">
+			<a href="{@link}">
+				<span class="externalCommand usermanual">
+					<xsl:value-of select="@name"/><!--
+				-->(<xsl:value-of select="@section"/>)<!--
+			--></span><!--
+		--></a>
+		</xsl:template>
+
+	<xsl:template match="man/body/seealso">
+	<!-- Génération du titre -->
+	<h2>
+		<xsl:variable name="tagName" select="name()"/>
+		<xsl:variable name="title" select="concat(translate(substring($tagName, 1, 1), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), substring($tagName, 2))"/>
+		<xsl:value-of select="$title"/>
+	</h2>
+	
+	
+		<p>
+		<xsl:for-each select="./manentry">
+				<xsl:apply-templates select="."/>
+				<xsl:if test="position() != last()">, </xsl:if>
+		</xsl:for-each>.
+		</p>
 	</xsl:template>
 
-<xsl:template match="keybinding/keys">
-    <xsl:for-each select="item">
-      <kbd>
-        <xsl:value-of select="."/>
-        <xsl:if test="position() != last()">, </xsl:if>
-      </kbd>
-    </xsl:for-each>
-</xsl:template>
+
+	<xsl:template match="keybinding/keys">
+		<xsl:for-each select="item">
+			<kbd>
+				<xsl:value-of select="."/>
+				<xsl:if test="position() != last()">, </xsl:if>
+			</kbd>
+		</xsl:for-each>
+	</xsl:template>
 
 
 	<xsl:template match="keybinding">
 		<dt>
-		<a name="bindings-{./code}"/>
-		<a href="#bindings-{./code}">
-		<xsl:apply-templates select="keys"/>
-		</a>
+			<a name="bindings-{./code}"/>
+			<a href="#bindings-{./code}">
+				<xsl:apply-templates select="keys"/>
+			</a>
 		</dt>
 		<dd><xsl:value-of select="desc" /></dd>
 	</xsl:template>
@@ -126,7 +166,7 @@
 
 
 	<!-- Traitement des sections standardrd -->
-	<xsl:template match="name | synopsis | description | terminology | options | examples | bindings | configuration | installation | todo | screenshots">
+	<xsl:template match="name | synopsis | description | terminology | options | examples | bindings | configuration | installation | todo | screenshots | seealso">
 		<xsl:variable name="temp">
 			<h2>
 				<xsl:variable name="tagName" select="name()"/>
@@ -136,6 +176,13 @@
 		</xsl:variable>
 		<xsl:apply-templates select="$temp"/>
 		<xsl:apply-templates  select="node()" />
+	</xsl:template>
+
+	<xsl:template match="man/body/synopsis/node()">
+		<div class="synopsis">
+			{<b class="constant"><xsl:value-of select="$codeName"/></b>|<b class="constant"><xsl:value-of select="$altCodeName"/></b>}
+			<xsl:copy-of select="parse-xml($synopsisContent)/root/node()"/>
+		</div>
 	</xsl:template>
 
 	<xsl:template match="man/body/options/node()">
@@ -264,30 +311,30 @@
 
 <xsl:variable name="afterBody">
 	<script>
-	/* Faire en sorte que les descriptions dd se trouvant à droite de label dt suffisement soient hissés à la même hauteur.*/
+		/* Faire en sorte que les descriptions dd se trouvant à droite de label dt suffisement soient hissés à la même hauteur.*/
 
-	let maxWidthForSameLineDescription;
+		let maxWidthForSameLineDescription;
 
-	if (window.innerWidth &lt; 600) {
+		if (window.innerWidth &lt; 600) {
 		maxWidthForSameLineDescription = 3;
-	} else {
+		} else {
 		maxWidthForSameLineDescription = 7;
-	}
+		}
 
-	function chToPx(ch) {
+		function chToPx(ch) {
 		const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize); // Taille de la police en px
 		const chWidth = fontSize * 0.5; // Approximativement la largeur d'un "0" en ch, selon la police
 		return ch * chWidth;
-	}
-	document.querySelectorAll("dt").forEach(dt => {
+		}
+		document.querySelectorAll("dt").forEach(dt => {
 		console.log(dt)
 		if (dt.offsetWidth &lt; chToPx(maxWidthForSameLineDescription) ) {
-			const dd = dt.nextElementSibling;
-			if (dd &amp;&amp; dd.tagName.toLowerCase() === "dd") {
-				dd.style.marginTop = "-1.1em";
-			}
+		const dd = dt.nextElementSibling;
+		if (dd &amp;&amp; dd.tagName.toLowerCase() === "dd") {
+		dd.style.marginTop = "-1.1em";
 		}
-	});
+		}
+		});
 	</script>
 </xsl:variable>
 

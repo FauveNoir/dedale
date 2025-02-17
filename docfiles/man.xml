@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<man lang="fre">
+	<head>
+		<name>Dédale</name>
+		<codeName>dedale</codeName>
+		<altCodeName>qr</altCodeName>
+		<shortDesc>Utilitaire de présentation dynamique de symbologies (QRcode et Datamatrix)</shortDesc>
+		<website>https://fauvenoir.github.io/triumphum/</website>
+		<repository>https://fauvenoir.github.io/triumphum/</repository>
+		<donationLink>https://paypal.me/ihidev</donationLink>
+		<author>Fauve</author>
+		<authorCivilName>Idriss al Idrissi</authorCivilName>
+		<mansection>1</mansection>
+	</head>
+
+
+	<body>
+		<name makereceipe=""/>
+
+		<synopsis>
+		</synopsis>
+
+		<description>
+			<p>
+				<ref select="name"/> permet d’afficher à la volée en plein écran des QRcodes ou Datamatrix d’après les données entrées en ligne de commande, actuelleent sélectionées, ou dans le presse-papier. Il est conçu pour transmettre rapidement une information rapidement depuis une station de travail vers un périphérique cappable de scanner une symbologie. Un usage typique consisterait à vouloir transmettre depuis une station de travail vers un téléphone se trouvant à proximité une url complexe, ou bien même un simple numéro de téléphone, ou de façon générale toute information pouvant être stoquée dans une symbologie.
+			</p>
+			<h3>Note sur la commande d’appel</h3>
+			<p>
+				<ref select="name"/> peut aussi bien être appelé par la commande <ref select="codeName"/> qu’avec la commande <ref select="altCodeName"/> pour davantage de brièveté.
+			</p>
+		</description>
+
+		<terminology>
+			<p>
+				Le terme de symbologie est utilisé pour désigner n’importe quel symbole plus ou moins complexe sensé entretenir une correspondance avec un texte donné, et souvent nomé improprement « Code barre en 2D ». Ainsi le format QRcode ou Datamatrix sont désignés par le terme générique de symbologie.
+			</p>
+		</terminology>
+		<options>
+		</options>
+
+		<examples>
+			<h3>Suggestion de configuration pour i3</h3>
+			<pre language="i3">bindcode $mod+60               exec $(qr --from-selection)
+bindcode $mod+Shift+60         exec $(qr --from-clipboard)</pre>
+			<h3>Suggestion de configuration pour KDE</h3>
+			<p>Éditez le fichier ~/.kde/share/config/kglobalshortcutsrc, et ajoutez-y la configuration suivante</p>
+			<pre language="confini">[Global Shortcuts]
+qr-ctrlh=Ctrl+H,none,qr --from-selection
+qr-shift-ctrlh=Ctrl+Shift+H,none,qr --from-clipboard</pre>
+			<p>Enregistrez, en suite saisissez sur le shell <code>kwriteconfig5 --file kwinrc</code> afin que les modifications prennent effet.</p>
+		</examples>
+
+		<bindings>
+		</bindings>
+
+		<interface>
+		</interface>
+
+		<configuration>
+			<p>Le fichier de configuration est <file>$HOME/.config/<ref select="codeName"/>rc</file> (ou <file>%APPDATA%\<ref select="codeName"/>rc</file> sous Windows).</p>
+
+			<p>Les définitions y sont au format unixconf où chaque ligne représente une définition qui est elle même de la forme <code><var>clé</var>=<var>valeur</var></code>. Dans le cas des définitions de raccourcis-clavier les valeurs peuvent être multiples et sont dans ce cas séparées par des virgules </p>
+
+				<dl>
+					<dt><a name="language"></a><a href="#language"><code>language</code></a></dt>
+					<dd>Langue de l’application (pour l’instant <code>fre</code> seulement) (Défaut : <code>fre</code>)</dd>
+
+					<dt><a name="editorCommand"></a><a href="#editorCommand"><code>editorCommand</code></a></dt>
+					<dd>Éditeur de texte à utiliser pour les modifications (Défaut : <code>"urxvtc -e vim"</code>)</dd>
+
+					<dt><a name="toggleToQrcode"></a><a href="#toggleToQrcode"><code>toggleToQrcode</code></a></dt>
+					<dd>Symboliser en QRcode (Défaut : <code>a</code>)</dd>
+
+					<dt><a name="toggleToDatamatrix"></a><a href="#toggleToDatamatrix"><code>toggleToDatamatrix</code></a></dt>
+					<dd>Symboliser en Datamatrix (Défaut : <code>u</code>)</dd>
+
+					<dt><a name="edit"></a><a href="#edit"><code>edit</code></a></dt>
+					<dd>Ouvrir le texte dans un éditeur (Défaut : <code>c</code>)</dd>
+
+					<dt><a name="copyTextToClipboard"></a><a href="#copyTextToClipboard"><code>copyTextToClipboard</code></a></dt>
+					<dd>Copier le texte dans le presse-papier (Défaut : <code>y, Ctrl+C</code>)</dd>
+
+					<dt><a name="copySymbologyToClipboard"></a><a href="#copySymbologyToClipboard"><code>copySymbologyToClipboard</code></a></dt>
+					<dd>Copier la symbologie dans le presse-papier (Défaut : <code>Shift+y, Ctrl+Shift+C</code>)</dd>
+
+					<dt><a name="pasteFromClipboard"></a><a href="#pasteFromClipboard"><code>pasteFromClipboard</code></a></dt>
+					<dd>Symboliser le contenu du presse-papier (Défaut : <code>p, Ctrl+v</code>)</dd>
+
+					<dt><a name="showHelp"></a><a href="#showHelp"><code>showHelp</code></a></dt>
+					<dd>Montrer l’aide (Défaut : <code>h</code>)</dd>
+
+					<dt><a name="close"></a><a href="#close"><code>close</code></a></dt>
+					<dd>Quitter (Défaut : <code>q</code>)</dd>
+
+					<dt><a name="donate"></a><a href="#donate"><code>donate</code></a></dt>
+					<dd>Faire un don (Défaut : <code>d</code>)</dd>
+
+				</dl>
+
+
+			</configuration>
+
+			<installation>
+				<h3>Debian, Ubuntu, et debianides</h3>
+				<pre language="sh">wget --output-document=<ref select="codeName"/>.deb https://github.com/FauveNoir/<ref select="codeName"/>/raw/main/<ref select="codeName"/>.deb &amp;&amp; \
+sudo dpkg --install <ref select="codeName"/>.deb &amp;&amp; \
+sudo apt-get install --fix-broken --assume-yes</pre>
+			</installation>
+
+			<screenshots>
+			<h3>Texte libre</h3>
+			<img src="../screenshots/dedale_screenshot_texte-libre.png" />
+			<h3>Code source en Python</h3>
+			<img src="../screenshots/dedale_screenshot_python-script.png" />
+			<h3>Message d’erreur en cas d’absence de texte en entrée</h3>
+			<img src="../screenshots/dedale_screenshot_erreur.png" />
+			<h3>Écran d’aide</h3>
+			<img src="../screenshots/dedale_screenshot_aide.png" />
+			</screenshots>
+
+			<seealso>
+				<manentry name="Qrencode" section="1" link="https://fukuchi.org/works/qrencode/"/>
+				<manentry name="QtQR" section="1" link="https://code.google.com/archive/p/qtqr/" />
+			</seealso>
+
+
+		</body>
+	</man>

@@ -8,6 +8,7 @@ DEBDIRECTORY=$(PWD)/deb
 DATE=$(shell date -I)
 OPTIONS=$(shell python3 src/getOptions.py)
 KEYBINDINGS=$(shell python3 src/getKeybindings.py)
+SYNOPSIS=$(shell python3 src/getSynopsis.py)
 
 
 getcurrentversion:
@@ -36,6 +37,7 @@ website:
 		-o:docs/index.html \
 		optionsContent='<root>${OPTIONS}</root>' \
 		keybindingsContent='<root>${KEYBINDINGS}</root>' \
+		synopsisContent='<root>${SYNOPSIS}</root>' \
 		date="${DATE}"
 
 man:
