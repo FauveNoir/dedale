@@ -109,13 +109,13 @@ sudo apt-get install --fix-broken --assume-yes</pre>
 
 			<screenshots>
 			<h3>Texte libre</h3>
-			<img src="../screenshots/dedale_screenshot_texte-libre.png" />
+			<img src="./screenshots/dedale_screenshot_texte-libre.png" />
 			<h3>Code source en Python</h3>
-			<img src="../screenshots/dedale_screenshot_python-script.png" />
+			<img src="./screenshots/dedale_screenshot_python-script.png" />
 			<h3>Message d’erreur en cas d’absence de texte en entrée</h3>
-			<img src="../screenshots/dedale_screenshot_erreur.png" />
+			<img src="./screenshots/dedale_screenshot_erreur.png" />
 			<h3>Écran d’aide</h3>
-			<img src="../screenshots/dedale_screenshot_aide.png" />
+			<img src="./screenshots/dedale_screenshot_aide.png" />
 			</screenshots>
 
 			<seealso>
