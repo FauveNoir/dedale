@@ -24,6 +24,10 @@
 			<p>
 				<ref select="name"/> permet d’afficher à la volée en plein écran des QRcodes ou Datamatrix d’après les données entrées en ligne de commande, actuelleent sélectionées, ou dans le presse-papier. Il est conçu pour transmettre rapidement une information rapidement depuis une station de travail vers un périphérique cappable de scanner une symbologie. Un usage typique consisterait à vouloir transmettre depuis une station de travail vers un téléphone se trouvant à proximité une url complexe, ou bien même un simple numéro de téléphone, ou de façon générale toute information pouvant être stoquée dans une symbologie.
 			</p>
+			<h3>Circonscription du cas d’usage</h3>
+			<p>
+			<ref select="name"/> est conçu pour les symbologies sensées n’avoir d’usage que temporaire dans le contexte d’un échange rapide et ponctuel entre deux périphériques. Pour la génération de symbologies ayant vocation à être pérennes, comme celles sensées être distribuées sur support physiques (carte de visite, feuilles volantes, affichage mural, etc), il ne saurait que trop être conseillé de se tourner vers des solutions permettant plus d’ajustements et d’optimisations comme <manentry name="Qrencode" section="1" link="https://fukuchi.org/works/qrencode/"/>.
+			</p>
 			<h3>Note sur la commande d’appel</h3>
 			<p>
 				<ref select="name"/> peut aussi bien être appelé par la commande <ref select="codeName"/> qu’avec la commande <ref select="altCodeName"/> pour davantage de brièveté.
